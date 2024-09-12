@@ -98,7 +98,7 @@ void main() {
 
     expect(
       feed.items.first.content!.value,
-      '<img alt="unit test image" width=\"1000\" height=\"690\" src=\"https://test.com/image_link\"/> Test content<br />',
+      '<img alt="unit test image" width="1000" height="690" src="https://test.com/image_link"/> Test content<br />',
     );
     expect(
       feed.items.first.content!.images.first,
@@ -439,14 +439,14 @@ void main() {
     expect(feed.podcastIndex?.value![0]!.recipients![0]!.name, 'podcaster');
     expect(feed.podcastIndex?.value![0]!.recipients![0]!.type, 'node');
     expect(feed.podcastIndex?.value![0]!.recipients![0]!.address,
-        'ABCDEFGHIJLKMNOPQRSTUVWXYZ');
+        'ABCDEFGHIJLKMNOPQRSTUVWXYZ',);
     expect(feed.podcastIndex?.value![0]!.recipients![0]!.split, 99);
 
     expect(
-        feed.podcastIndex?.value![0]!.recipients![1]!.name, 'hosting company');
+        feed.podcastIndex?.value![0]!.recipients![1]!.name, 'hosting company',);
     expect(feed.podcastIndex?.value![0]!.recipients![1]!.type, 'node');
     expect(feed.podcastIndex?.value![0]!.recipients![1]!.address,
-        'abcdefghijklmnopqrstuvwxyz');
+        'abcdefghijklmnopqrstuvwxyz',);
     expect(feed.podcastIndex?.value![0]!.recipients![1]!.split, 1);
 
     expect(feed.podcastIndex!.guid, '20a14457-0993-49b8-a37a-18384e7f91f8');
@@ -469,7 +469,7 @@ void main() {
     expect(chapters1?.type, 'application/json');
 
     expect(item1.podcastIndex!.license!.url,
-        'https://www.mytestlicense.org/lic.html');
+        'https://www.mytestlicense.org/lic.html',);
     expect(item1.podcastIndex!.license!.license, 'my-test-license-v1');
 
     expect(soundbite1.length, 1);
@@ -552,13 +552,13 @@ void main() {
     expect(soundbite2[0]!.duration, 56.0);
   });
 
-  test('parse RSS-PodcastIndex-R1-medium.xml', () {
+  test('parse RSS-PodcastIndex-R1-remote-item.xml', () {
     var xmlString =
-        File('test/xml/RSS-PodcastIndex-R1-medium.xml').readAsStringSync();
+        File('test/xml/RSS-PodcastIndex-R1-remote-item.xml').readAsStringSync();
 
     var feed = RssFeed.parse(xmlString);
 
-    expect(feed.title, 'Podcasting 2.0 Namespace Example R1 Medium');
+    expect(feed.title, 'Podcasting 2.0 Namespace Example R1 Remote Item');
     expect(
       feed.description,
       'This is a fake show that exists only as an example of the "podcast" namespace tag usage.',
@@ -615,5 +615,35 @@ void main() {
     var season3 = item3.podcastIndex!.season;
     expect(season3?.season, 0);
     expect(season3?.name, null);
+  });
+
+  test('parse RSS-PodcastIndex-R1-no-medium.xml', () {
+    var xmlString =
+        File('test/xml/RSS-PodcastIndex-R1-no-medium.xml').readAsStringSync();
+
+    var feed = RssFeed.parse(xmlString);
+
+    expect(feed.title, 'Podcasting 2.0 Namespace Example R1 Medium');
+    expect(
+      feed.description,
+      'This is a fake show that exists only as an example of the "podcast" namespace tag usage.',
+    );
+
+    expect(feed.podcastIndex!.medium, null);
+  });
+
+  test('parse RSS-PodcastIndex-R1-medium.xml', () {
+    var xmlString =
+        File('test/xml/RSS-PodcastIndex-R1-medium.xml').readAsStringSync();
+
+    var feed = RssFeed.parse(xmlString);
+
+    expect(feed.title, 'Podcasting 2.0 Namespace Example R1 Medium');
+    expect(
+      feed.description,
+      'This is a fake show that exists only as an example of the "podcast" namespace tag usage.',
+    );
+
+    expect(feed.podcastIndex!.medium, 'audiobook');
   });
 }
